@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import PropTypes from 'prop-types';
 import data from '../mock/data.json';
+import { parseISO, differenceInCalendarDays } from 'date-fns';
 
 
 const userActivityData = data.USER_ACTIVITY.find(
@@ -81,6 +82,17 @@ const renderCustomBar = (props) => {
 };
 
 const CustomBarChart = () => {
+  const maxWeight = Math.max(...formattedData.map(d => d.weight));
+  const minWeight = Math.min(...formattedData.map(d => d.weight));
+  const averageWeight = (minWeight + maxWeight) / 2;
+
+const startDate = parseISO(formattedData[0].day);
+
+const formatDay = (day) => {
+  const currentDate = parseISO(day);
+  return differenceInCalendarDays(currentDate, startDate) + 1;
+}
+
 
   return (
     <section className="container_graphic_data">
@@ -114,6 +126,7 @@ const CustomBarChart = () => {
                 <CartesianGrid strokeDasharray="2" vertical={false} stroke='#DEDEDE' />
                 <XAxis
                   dataKey="day"
+                  tickFormatter={formatDay}
                   tickLine={false}
                   axisLine={false}
                   tick={{ fill: '#9B9EAC', fontSize: '14px' }}
@@ -121,12 +134,14 @@ const CustomBarChart = () => {
                   
                 />
                 <YAxis
-                  dataKey="calorie"
+                  dataKey="weight"
                   orientation="right"
                   tickLine={false}
                   axisLine={false}
                   tick={{ fill: '#9B9EAC', fontSize: '14px' }}
                   tickMargin={30}
+                  domain={[minWeight - 1, maxWeight]}
+                  ticks={[minWeight - 1, averageWeight, maxWeight]}
                   
                 />
                 <Tooltip content={<CustomToolTip />} cursor={{fill: '#C4C4C480'}} />
