@@ -1,0 +1,199 @@
+.container_nav_vertical {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 117px;
+  height: 100%;
+  background-color: $color-2;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+
+  .container_column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 120px;
+
+    .logo_nav_vertical {
+      height: 64px;
+      width: 64px;
+    }
+  }
+  .cp {
+    color: $color-1;
+    font-size: $text-xxsmall;
+    rotate: -90deg;
+    min-width: 136px;
+  }
+}
+
+.container_nav_horizontal {
+  position: relative;
+  height: 91px;
+  background-color: $color-2;
+  display: flex;
+  align-items: center;
+  z-index: 50;
+  margin-left: 30px;
+
+  .container_row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+
+    .nav_link {
+      font-size: $text-medium;
+      color: $color-1;
+      font-weight: $medium;
+    }
+  }
+}
+
+.container_main {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 24px;
+  margin: 60px 60px 60px 160px;
+
+  h1 {
+    font-size: $text-big;
+
+    .black {
+      color: $color-2;
+    }
+
+    .red {
+      color: $color-3;
+    }
+  }
+
+  .congrat {
+    font-size: $text-xxmedium;
+  }
+
+  .container_graphic_data {
+    background-color: $color-4;
+    height: 230px;
+    width: 72%;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+
+    .container_graphic {
+      margin: 32px;
+
+      .container_activity {
+        .container_activity_header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .container_activity_weight_calorie {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .radius_weight {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              background-color: #282d30;
+            }
+
+            p {
+              font-size: $text-small;
+            }
+            .radius_calorie {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              background-color: #e60000;
+            }
+          }
+        }
+
+        .bar_chart {
+          height: 145px;
+          margin-top: 24px;
+        }
+      }
+    }
+  }
+
+  .container_data {
+    position: relative;
+    top: -480px;
+    width: 72%;
+    height: 204px;
+
+    .container_data_blocs {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .data_bloc_1 {
+        width: 210px;
+        height: 204px;
+        border-radius: 5px;
+        background-color: $color-3;
+      }
+
+      .data_bloc_2 {
+        width: 210px;
+        height: 204px;
+        border-radius: 5px;
+        background-color: #282d30;
+      }
+
+      .data_bloc_3 {
+        width: 210px;
+        height: 204px;
+        border-radius: 5px;
+        background-color: $color-4;
+      }
+    }
+  }
+
+  .container_summary {
+    position: relative;
+    top: -253px;
+    left: 610px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 210px;
+
+    .summary_bloc {
+      padding: 21px;
+      background-color: $color-4;
+      border-radius: 5px;
+      width: 210px;
+      display: flex;
+      gap: 16px;
+
+      .summary_bloc_details {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+
+        .summary_title {
+          margin-bottom: 8px;
+          font-size: $text-xsmall;
+          color: $color-7;
+        }
+
+        .summary_number {
+          font-size: 20px;
+          font-weight: 700;
+          color: $color-8;
+        }
+      }
+    }
+  }
+}
