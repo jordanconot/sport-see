@@ -113,15 +113,18 @@ const formatDay = (day) => {
             </div>
           </div>
           <div className="bar_chart">
-            <ResponsiveContainer width="100%" height={145}>
+            <ResponsiveContainer width='100%' height={145}>
               <BarChart
                 data={formattedData}
+                
                 margin={{
                   top: 5,
                   right: 30,
                   left: 20,
                   bottom: 5,
                 }}
+                barGap={8}
+              
               >
                 <CartesianGrid strokeDasharray="2" vertical={false} stroke='#DEDEDE' />
                 <XAxis
@@ -131,6 +134,7 @@ const formatDay = (day) => {
                   axisLine={false}
                   tick={{ fill: '#9B9EAC', fontSize: '14px' }}
                   tickMargin={15}
+                  padding={{ left: -20, right: -20}}
                   
                 />
                 <YAxis
