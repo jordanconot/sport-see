@@ -1,4 +1,4 @@
-import CustomAreaChart from '../componant/CustomAreaChart';
+import CustomLineChart from '../componant/CustomLineChart';
 import CustomBarChart from '../componant/CustomBarChart';
 import NavBar from '../componant/NavBar';
 import CustomPieChart from '../componant/CustomPieChart';
@@ -16,7 +16,7 @@ const Home = () => {
         <Summary />
         <section className="container_data">
           <div className="container_data_blocs">
-            <CustomAreaChart/>
+            <CustomLineChart/>
             <CustomRadarChart />
             <CustomPieChart />
           </div>
