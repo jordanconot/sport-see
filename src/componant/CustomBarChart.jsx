@@ -1,12 +1,12 @@
 import {
   BarChart,
   Bar,
-  Rectangle,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Rectangle,
 } from 'recharts';
 import PropTypes from 'prop-types';
 import data from '../mock/data.json';
@@ -51,27 +51,22 @@ const CustomToolTip = ({ active, payload }) => {
   return null;
 };
 
-const renderCustomBar = (props) => {
-  const { fill, width, height, x, y } = props;
-  const radius = [3, 3, 0, 0];
-
+const CustomCursor = ({ x, y, width, height }) => {
+  if (width) width = width / 2;
   return (
     <Rectangle
-      fill={fill}
+      fill="#C4C4C480"
+      strokeWidth={15}
       x={x}
       y={y}
       width={width}
       height={height}
-      radius={radius}
+      transform="translate(25, 0)"
     />
   );
 };
 
 const CustomBarChart = () => {
-  const maxWeight = Math.max(...formattedData.map((d) => d.weight));
-  const minWeight = Math.min(...formattedData.map((d) => d.weight));
-  const averageWeight = (minWeight + maxWeight) / 2;
-
   const startDate = parseISO(formattedData[0].day);
 
   const formatDay = (day) => {
@@ -84,15 +79,15 @@ const CustomBarChart = () => {
       <div className="container_graphic">
         <div className="container_activity">
           <div className="container_activity_header">
-            <p className="text_color_6 font_weight">Activité quotidienne</p>
+            <p>Activité quotidienne</p>
 
             <div className="container_activity_weight_calorie">
               <div className="radius_weight"></div>
-              <p className="text_color_7 font_weight">Poids (kg)</p>
+              <p>Poids (kg)</p>
             </div>
             <div className="container_activity_weight_calorie">
               <div className="radius_calorie"></div>
-              <p className="text_color_7 font_weight">
+              <p>
                 Calories brûlées (kCal)
               </p>
             </div>
@@ -104,13 +99,13 @@ const CustomBarChart = () => {
                 margin={{
                   top: 5,
                   right: 30,
-                  left: 20,
+                  left: -20,
                   bottom: 5,
                 }}
                 barGap={8}
               >
                 <CartesianGrid
-                  strokeDasharray="2"
+                  strokeDasharray="1 2"
                   vertical={false}
                   stroke="#DEDEDE"
                 />
@@ -121,33 +116,47 @@ const CustomBarChart = () => {
                   axisLine={false}
                   tick={{ fill: '#9B9EAC', fontSize: '14px' }}
                   tickMargin={15}
-                  padding={{ left: -20, right: -20 }}
+                  padding={{ left: -45, right: -45 }}
+                  domain={['dataMin', 'dataMax']}
                 />
                 <YAxis
+                  yAxisId="right"
+                  tickCount={3}
                   dataKey="weight"
                   orientation="right"
                   tickLine={false}
                   axisLine={false}
                   tick={{ fill: '#9B9EAC', fontSize: '14px' }}
-                  tickMargin={30}
-                  domain={[minWeight - 1, maxWeight]}
-                  ticks={[minWeight - 1, averageWeight, maxWeight]}
+                  tickMargin={40}
+                  domain={['dataMin -1', 'dataMax +2']}
+                />
+                <YAxis
+                  yAxisId="left"
+                  orientation="left"
+                  dataKey="calorie"
+                  tickLine={false}
+                  axisLine={false}
+                  tick={false}
+                  domain={[0, 'dataMax +50']}
                 />
                 <Tooltip
-                  content={<CustomToolTip />}
-                  cursor={{ fill: '#C4C4C480' }}
+                  content={<CustomToolTip active={false} />}
+                  cursor={<CustomCursor width={100} />}
+                  wrapperStyle={{ top: -40 }}
                 />
                 <Bar
+                  yAxisId="right"
                   dataKey="weight"
-                  shape={renderCustomBar}
                   fill="#282D30"
                   barSize={7}
+                  radius={[10, 10, 0, 0]}
                 />
                 <Bar
+                  yAxisId="left"
                   dataKey="calorie"
-                  shape={renderCustomBar}
                   fill="#E60000"
                   barSize={7}
+                  radius={[10, 10, 0, 0]}
                 />
               </BarChart>
             </ResponsiveContainer>
@@ -156,6 +165,13 @@ const CustomBarChart = () => {
       </div>
     </section>
   );
+};
+
+CustomCursor.propTypes = {
+  x: PropTypes.number,
+  y: PropTypes.number,
+  width: PropTypes.number,
+  height: PropTypes.number,
 };
 
 CustomToolTip.propTypes = {
