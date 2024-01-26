@@ -51,17 +51,6 @@ const CustomToolTip = ({ active, payload }) => {
   return null;
 };
 
-CustomToolTip.propTypes = {
-  active: PropTypes.bool,
-  payload: PropTypes.arrayOf(
-    PropTypes.shape({
-      dataKey: PropTypes.string,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      name: PropTypes.string,
-    })
-  ),
-};
-
 const renderCustomBar = (props) => {
   const { fill, width, height, x, y } = props;
   const radius = [3, 3, 0, 0];
@@ -167,6 +156,17 @@ const CustomBarChart = () => {
       </div>
     </section>
   );
+};
+
+CustomToolTip.propTypes = {
+  active: PropTypes.bool,
+  payload: PropTypes.arrayOf(
+    PropTypes.shape({
+      dataKey: PropTypes.string,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      name: PropTypes.string,
+    })
+  ),
 };
 
 export default CustomBarChart;

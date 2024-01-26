@@ -1,58 +1,82 @@
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+} from 'recharts';
+import data from '../mock/data.json';
+import PropTypes from 'prop-types';
 
-const CustomRadarChart = () => {
-    const data = [
-        {
-          subject: 'Math',
-          A: 120,
-          B: 110,
-          fullMark: 150,
-        },
-        {
-          subject: 'Chinese',
-          A: 98,
-          B: 130,
-          fullMark: 150,
-        },
-        {
-          subject: 'English',
-          A: 86,
-          B: 130,
-          fullMark: 150,
-        },
-        {
-          subject: 'Geography',
-          A: 99,
-          B: 100,
-          fullMark: 150,
-        },
-        {
-          subject: 'Physics',
-          A: 85,
-          B: 90,
-          fullMark: 150,
-        },
-        {
-          subject: 'History',
-          A: 65,
-          B: 85,
-          fullMark: 150,
-        },
-      ];
-
-
-    return (
-        <div className="data_bloc_2">
-            <ResponsiveContainer width="100%" height="100%">
-        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
-          <PolarGrid />
-          <PolarAngleAxis dataKey="subject" />
-          <PolarRadiusAxis />
-          <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-        </RadarChart>
-      </ResponsiveContainer>
-        </div>
-    );
+const kindFr = {
+  cardio: 'Cardio',
+  energy: 'Énergie',
+  endurance: 'Endurance',
+  strength: 'Force',
+  speed: 'Vitesse',
+  intensity: 'Intensité',
 };
 
+const CustomTick = ({ payload, x, y, textAnchor, stroke }) => {
+  x += -3
+  return (
+    <g>
+      <text
+        stroke={stroke}
+        y={y}
+        fontSize="0.43rem"
+        fontWeight="500"
+        textAnchor={textAnchor}
+      >
+        <tspan x={x} style={{ fill: 'white' }}>
+          {payload?.value}
+        </tspan>
+      </text>
+    </g>
+  );
+};
+
+const CustomRadarChart = () => {
+  const userPerformanceData = data.USER_PERFORMANCE.find(
+    (user) => user.userId === 12
+  );
+
+  const formattedData = userPerformanceData.data.map((item) => {
+    return {
+      kind: kindFr[userPerformanceData.kind[item.kind.toString()]],
+      value: item.value,
+    };
+  });
+
+  return (
+    <div className="data_bloc_2">
+      <ResponsiveContainer width="100%" height={263}>
+        <RadarChart outerRadius="80%" data={formattedData}>
+          <PolarGrid radialLines={false} />
+          <PolarAngleAxis
+            dataKey="kind"
+            tickSize={12}
+            tick={<CustomTick />}
+          />
+          <PolarRadiusAxis
+            angle={30}
+            domain={[0, 'dataMax+20']}
+            tick={false}
+            axisLine={false}
+          />
+          <Radar dataKey="value" fill="#FF0101B2" />
+        </RadarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
+
+CustomTick.propTypes = {
+  payload: PropTypes.object,
+  x: PropTypes.number,
+  y: PropTypes.number,
+  textAnchor: PropTypes.string,
+  stroke: PropTypes.string,
+};
 export default CustomRadarChart;

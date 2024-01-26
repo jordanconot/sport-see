@@ -1,7 +1,7 @@
 import CustomLineChart from '../componant/CustomLineChart';
 import CustomBarChart from '../componant/CustomBarChart';
 import NavBar from '../componant/NavBar';
-import CustomPieChart from '../componant/CustomPieChart';
+import CustomRadialBarChart from '../componant/CustomRadialBarChart';
 import CustomRadarChart from '../componant/CustomRadarChart';
 import Summary from '../componant/Summary';
 import UserName from '../componant/UserName';
@@ -12,15 +12,19 @@ const Home = () => {
       <NavBar />
       <main className="container_main">
         <UserName />
-        <CustomBarChart />
-        <Summary />
-        <section className="container_data">
-          <div className="container_data_blocs">
-            <CustomLineChart/>
-            <CustomRadarChart />
-            <CustomPieChart />
+        <div className="test2">
+          <div className="test">
+            <CustomBarChart />
+            <section className="container_data">
+              <div className="container_data_blocs">
+                <CustomLineChart />
+                <CustomRadarChart />
+                <CustomRadialBarChart />
+              </div>
+            </section>
           </div>
-        </section>
+          <Summary />
+        </div>
       </main>
     </>
   );

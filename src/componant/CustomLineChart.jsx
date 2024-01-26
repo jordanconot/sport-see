@@ -29,7 +29,11 @@ const formattedData = [
 
 const CustomToolTip = ({ active, payload }) => {
   if (active && payload && payload.length) {
-    const time = payload.find((entry) => entry.dataKey === 'time');
+    const time = payload[0].payload;
+
+    if (time.day === 0 || time.day === 8) {
+      return null;
+    }
 
     return (
       <div
@@ -40,11 +44,7 @@ const CustomToolTip = ({ active, payload }) => {
           padding: '9px',
         }}
       >
-        {time && (
-          <p
-            style={{ color: '#000000', fontSize: '8px' }}
-          >{`${time.value}min`}</p>
-        )}
+        <p style={{ color: '#000000', fontSize: '8px' }}>{`${time.time}min`}</p>
       </div>
     );
   }
@@ -71,25 +71,32 @@ const CustomCursor = ({ width, height, points }) => {
   );
 };
 
+const CustomActiveDot = ({ stroke, fill, r, payload }) => {
+  if (payload.day === 0 || payload.day === 8) {
+    return null;
+  }
+  return <circle r={r} stroke={stroke} fill={fill} />;
+};
+
 const CustomLineChart = () => {
   const daysMap = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
   return (
     <div className="data_bloc_1">
-      <div
-        style={{
-          color: '#fff',
-          textAlign: 'left',
-          fontSize: '12px',
-          opacity: '0.7',
-          marginTop: '20px',
-          marginLeft: '20px',
-          position: 'absolute',
-        }}
-      >
-        Durée moyenne des<br></br>sessions
-      </div>
-      <ResponsiveContainer width="100%">
+      <ResponsiveContainer width="100%" height={263}>
+        <div
+          style={{
+            color: '#fff',
+            textAlign: 'left',
+            fontSize: '12px',
+            opacity: '0.7',
+            marginTop: '20px',
+            marginLeft: '20px',
+            position: 'absolute',
+          }}
+        >
+          Durée moyenne des<br></br>sessions
+        </div>
         <LineChart
           data={formattedData}
           margin={{
@@ -119,7 +126,7 @@ const CustomLineChart = () => {
             dataKey="time"
             stroke="#FFFFFF"
             dot={false}
-            activeDot={{ r: 3 }}
+            activeDot={(props) => <CustomActiveDot {...props} />}
           />
         </LineChart>
       </ResponsiveContainer>
@@ -136,6 +143,15 @@ CustomCursor.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   points: PropTypes.array,
+};
+
+CustomActiveDot.propTypes = {
+  stroke: PropTypes.string,
+  fill: PropTypes.string,
+  r: PropTypes.number,
+  payload: PropTypes.shape({
+    day: PropTypes.number,
+  }),
 };
 
 export default CustomLineChart;
