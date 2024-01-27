@@ -22,7 +22,8 @@ const CustomRadialBarChart = () => {
       <div className='score'>Score</div>
       <div className='container_result'>
         <span className='result'>{formattedData[0].score}%</span>
-        <span className='objectif'> de votre objectif</span>
+        <span className='objectif'>de votre</span>
+        <span className='objectif'>objectif</span>
       </div>
       <ResponsiveContainer width="100%" height={263}>
         <RadialBarChart
