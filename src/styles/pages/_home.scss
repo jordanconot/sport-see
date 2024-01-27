@@ -60,6 +60,10 @@
   gap: 24px;
   margin: 25px 60px 60px 160px;
 
+  @media (min-width: 1025px) {
+    margin: 60px 60px 60px 160px;
+  }
+
   h1 {
     font-size: $text-big;
 
@@ -75,10 +79,23 @@
   .congrat {
     font-size: $text-xxmedium;
   }
+  .container_graph {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 24px;
+
+    @media (min-width: 1025px) {
+      flex-direction: row;
+    }
+  }
+  .container_graph_data {
+    flex: 70%;
+  }
 
   .container_graphic_data {
     background-color: $color-4;
-    height: 230px;
+    height: 320px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -89,13 +106,18 @@
       .container_activity {
         .container_activity_header {
           display: flex;
-          justify-content: space-between;
           align-items: center;
+          justify-content: space-between;
 
-          p{
+          p {
             color: $color-6;
             font-size: $text-small;
             font-weight: 600;
+          }
+
+          .container_info {
+            display:flex;
+            gap: 24px;
           }
 
           .container_activity_weight_calorie {
@@ -126,8 +148,7 @@
         }
 
         .bar_chart {
-          height: 145px;
-          margin-top: 24px;
+          margin-top: 64px;
         }
       }
     }
@@ -167,6 +188,21 @@
           color: #20253a;
           font-weight: 500;
         }
+        .container_result {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+          background-color: white;
+          border-radius: 50%;
+          width: 12rem;
+          height: 12rem;
+        }
         .result {
           font-size: 26px;
           font-weight: 700;
@@ -183,6 +219,11 @@
     display: flex;
     gap: 16px;
 
+    @media (min-width: 1025px) {
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
     .summary_bloc {
       padding: 21px;
       background-color: $color-4;
@@ -190,6 +231,10 @@
       width: 25%;
       display: flex;
       gap: 16px;
+
+      @media (min-width: 1025px) {
+        width: 100%;
+      }
 
       .summary_bloc_details {
         display: flex;
@@ -211,30 +256,4 @@
       }
     }
   }
-}
-
-.test2 {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 24px;
-}
-.test {
-  flex: 80%;
-}
-
-.container_result {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  background-color: white;
-  border-radius: 50%;
-  width: 12rem;
-  height: 12rem;
 }

@@ -12,8 +12,8 @@ const Home = () => {
       <NavBar />
       <main className="container_main">
         <UserName />
-        <div className="test2">
-          <div className="test">
+        <section className="container_graph">
+          <div className="container_graph_data">
             <CustomBarChart />
             <section className="container_data">
               <div className="container_data_blocs">
@@ -24,7 +24,7 @@ const Home = () => {
             </section>
           </div>
           <Summary />
-        </div>
+        </section>
       </main>
     </>
   );

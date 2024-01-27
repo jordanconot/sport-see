@@ -51,20 +51,20 @@ const CustomToolTip = ({ active, payload }) => {
   return null;
 };
 
-const CustomCursor = ({ x, y, width, height }) => {
-  if (width) width = width / 2;
-  return (
-    <Rectangle
-      fill="#C4C4C480"
-      strokeWidth={15}
-      x={x}
-      y={y}
-      width={width}
-      height={height}
-      transform="translate(25, 0)"
-    />
-  );
-};
+// const CustomCursor = ({ x, y, width, height }) => {
+//   if (width) width = width / 2;
+//   return (
+//     <Rectangle
+//       fill="#C4C4C480"
+//       strokeWidth={15}
+//       x={x}
+//       y={y}
+//       width={width}
+//       height={height}
+//       transform="translate(25, 0)"
+//     />
+//   );
+// };
 
 const CustomBarChart = () => {
   const startDate = parseISO(formattedData[0].day);
@@ -80,7 +80,7 @@ const CustomBarChart = () => {
         <div className="container_activity">
           <div className="container_activity_header">
             <p>Activité quotidienne</p>
-
+            <div className='container_info'>
             <div className="container_activity_weight_calorie">
               <div className="radius_weight"></div>
               <p>Poids (kg)</p>
@@ -91,16 +91,17 @@ const CustomBarChart = () => {
                 Calories brûlées (kCal)
               </p>
             </div>
+            </div>
           </div>
           <div className="bar_chart">
-            <ResponsiveContainer width="100%" height={145}>
+            <ResponsiveContainer width="100%" height={200}>
               <BarChart
                 data={formattedData}
                 margin={{
                   top: 5,
                   right: 30,
                   left: -20,
-                  bottom: 5,
+                  bottom: 35,
                 }}
                 barGap={8}
               >
@@ -116,8 +117,10 @@ const CustomBarChart = () => {
                   axisLine={false}
                   tick={{ fill: '#9B9EAC', fontSize: '14px' }}
                   tickMargin={15}
-                  padding={{ left: -45, right: -45 }}
                   domain={['dataMin', 'dataMax']}
+                  interval={0}
+                  padding={{ left: -45, right: -45 }}
+                  
                 />
                 <YAxis
                   yAxisId="right"
@@ -140,8 +143,8 @@ const CustomBarChart = () => {
                   domain={[0, 'dataMax +50']}
                 />
                 <Tooltip
-                  content={<CustomToolTip active={false} />}
-                  cursor={<CustomCursor width={100} />}
+                  content={<CustomToolTip />}
+                  // cursor={<CustomCursor width={120} />}
                   wrapperStyle={{ top: -40 }}
                 />
                 <Bar
@@ -167,12 +170,12 @@ const CustomBarChart = () => {
   );
 };
 
-CustomCursor.propTypes = {
-  x: PropTypes.number,
-  y: PropTypes.number,
-  width: PropTypes.number,
-  height: PropTypes.number,
-};
+// CustomCursor.propTypes = {
+//   x: PropTypes.number,
+//   y: PropTypes.number,
+//   width: PropTypes.number,
+//   height: PropTypes.number,
+// };
 
 CustomToolTip.propTypes = {
   active: PropTypes.bool,
