@@ -71,11 +71,14 @@ const CustomCursor = ({ width, height, points }) => {
   );
 };
 
-const CustomActiveDot = ({ stroke, fill, r, payload }) => {
+const CustomActiveDot = (props) => {
+  const { cx, cy, stroke, fill, r, payload } = props;
+
   if (payload.day === 0 || payload.day === 8) {
     return null;
   }
-  return <circle r={r} stroke={stroke} fill={fill} />;
+
+  return <circle cx={cx} cy={cy} r={r} stroke={stroke} fill={fill} />;
 };
 
 const CustomLineChart = () => {
@@ -126,7 +129,7 @@ const CustomLineChart = () => {
             dataKey="time"
             stroke="#FFFFFF"
             dot={false}
-            activeDot={(props) => <CustomActiveDot {...props} />}
+            activeDot={(props) => <CustomActiveDot {...props}/>}
           />
         </LineChart>
       </ResponsiveContainer>
@@ -149,6 +152,8 @@ CustomActiveDot.propTypes = {
   stroke: PropTypes.string,
   fill: PropTypes.string,
   r: PropTypes.number,
+  cx: PropTypes.number,
+  cy: PropTypes.number,
   payload: PropTypes.shape({
     day: PropTypes.number,
   }),
