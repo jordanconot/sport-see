@@ -85,7 +85,7 @@
     width: 100%;
     gap: 24px;
 
-    @media (min-width: 1025px) {
+    @media (min-width: 1400px) {
       flex-direction: row;
     }
   }
@@ -224,7 +224,7 @@
     display: flex;
     gap: 16px;
 
-    @media (min-width: 1025px) {
+    @media (min-width: 1400px) {
       flex-direction: column;
       justify-content: space-between;
       width: 20%;
@@ -239,6 +239,10 @@
       gap: 16px;
 
       @media (min-width: 1025px) {
+        gap: 32px;
+      }
+
+      @media (min-width: 1400px) {
         width: 100%;
         gap: 32px;
         padding: 32px;
