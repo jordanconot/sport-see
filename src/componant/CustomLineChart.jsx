@@ -86,7 +86,7 @@ const CustomLineChart = () => {
 
   return (
     <div className="data_bloc_1">
-      <ResponsiveContainer width="100%" height={263}>
+      <ResponsiveContainer width="99%" height={263}>
         <div
           style={{
             color: '#fff',
