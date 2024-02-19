@@ -6,26 +6,17 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Rectangle,
+  // Rectangle,
 } from 'recharts';
 import PropTypes from 'prop-types';
-import data from '../mock/data.json';
-import { parseISO, differenceInCalendarDays } from 'date-fns';
-
-const userActivityData = data.USER_ACTIVITY.find(
-  (activity) => activity.userId === 12
-);
-
-const formattedData = userActivityData.sessions.map((session) => ({
-  day: session.day,
-  weight: session.kilogram,
-  calorie: session.calories,
-}));
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import ApiServices from '../services/ApiService';
 
 const CustomToolTip = ({ active, payload }) => {
   if (active && payload && payload.length) {
-    const weight = payload.find((entry) => entry.dataKey === 'weight');
-    const calorie = payload.find((entry) => entry.dataKey === 'calorie');
+    const weight = payload.find((entry) => entry.dataKey === 'kilogram');
+    const calorie = payload.find((entry) => entry.dataKey === 'calories');
     return (
       <div
         style={{
@@ -67,12 +58,25 @@ const CustomToolTip = ({ active, payload }) => {
 // };
 
 const CustomBarChart = () => {
-  const startDate = parseISO(formattedData[0].day);
+  const [activityData, setActivityData] = useState('');
+  const { id } = useParams();
 
-  const formatDay = (day) => {
-    const currentDate = parseISO(day);
-    return differenceInCalendarDays(currentDate, startDate) + 1;
-  };
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const apiData = await ApiServices.getActivityData(id)
+        setActivityData(apiData);
+        
+      }catch (error) {
+        console.error('data failed'); 
+      }
+    }
+    fetchData()
+  }, [id])
+
+  if (!activityData) {
+    return <div>Chargement des données...</div>;
+  }
 
   return (
     <section className="container_graphic_data">
@@ -96,7 +100,7 @@ const CustomBarChart = () => {
           <div className="bar_chart">
             <ResponsiveContainer width="100%" height={200}>
               <BarChart
-                data={formattedData}
+                data={activityData.sessions}
                 margin={{
                   top: 5,
                   right: 30,
@@ -112,7 +116,7 @@ const CustomBarChart = () => {
                 />
                 <XAxis
                   dataKey="day"
-                  tickFormatter={formatDay}
+                  tickFormatter={activityData.sessions}
                   tickLine={false}
                   axisLine={false}
                   tick={{ fill: '#9B9EAC', fontSize: '14px' }}
@@ -125,7 +129,7 @@ const CustomBarChart = () => {
                 <YAxis
                   yAxisId="right"
                   tickCount={3}
-                  dataKey="weight"
+                  dataKey="kilogram"
                   orientation="right"
                   tickLine={false}
                   axisLine={false}
@@ -136,7 +140,7 @@ const CustomBarChart = () => {
                 <YAxis
                   yAxisId="left"
                   orientation="left"
-                  dataKey="calorie"
+                  dataKey="calories"
                   tickLine={false}
                   axisLine={false}
                   tick={false}
@@ -149,14 +153,14 @@ const CustomBarChart = () => {
                 />
                 <Bar
                   yAxisId="right"
-                  dataKey="weight"
+                  dataKey="kilogram"
                   fill="#282D30"
                   barSize={7}
                   radius={[10, 10, 0, 0]}
                 />
                 <Bar
                   yAxisId="left"
-                  dataKey="calorie"
+                  dataKey="calories"
                   fill="#E60000"
                   barSize={7}
                   radius={[10, 10, 0, 0]}

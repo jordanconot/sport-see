@@ -7,31 +7,16 @@ import {
   ResponsiveContainer,
   Rectangle,
 } from 'recharts';
-import data from '../mock/data.json';
 import PropTypes from 'prop-types';
-
-const userAverageData = data.USER_AVERAGE_SESSIONS.find(
-  (average) => average.userId === 12
-);
-
-const formattedData = [
-  { day: 0, time: userAverageData.sessions[0].sessionLength },
-  ...userAverageData.sessions.map((session) => ({
-    day: session.day,
-    time: session.sessionLength,
-  })),
-  {
-    day: 8,
-    time: userAverageData.sessions[userAverageData.sessions.length - 1]
-      .sessionLength,
-  },
-];
+import ApiServices from '../services/ApiService';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const CustomToolTip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const time = payload[0].payload;
 
-    if (time.day === 0 || time.day === 8) {
+    if (time.day === 'Start' || time.day === 'End') {
       return null;
     }
 
@@ -44,7 +29,7 @@ const CustomToolTip = ({ active, payload }) => {
           padding: '9px',
         }}
       >
-        <p style={{ color: '#000000', fontSize: '8px' }}>{`${time.time}min`}</p>
+        <p style={{ color: '#000000', fontSize: '8px' }}>{`${time.sessionLength}min`}</p>
       </div>
     );
   }
@@ -74,7 +59,7 @@ const CustomCursor = ({ width, height, points }) => {
 const CustomActiveDot = (props) => {
   const { cx, cy, stroke, fill, r, payload } = props;
 
-  if (payload.day === 0 || payload.day === 8) {
+  if (payload.day === 'L' || payload.day === 'D') {
     return null;
   }
 
@@ -82,7 +67,29 @@ const CustomActiveDot = (props) => {
 };
 
 const CustomLineChart = () => {
-  const daysMap = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+  const [averageData, setAverageData] = useState(null);
+  const { id } = useParams();
+
+  useEffect(() => {
+    async function fetchData() {
+      try{
+        const apiData = await ApiServices.getAverageSessionsData(id);
+        const sessionsWithExtraDays = [
+          {day: 'Start', sessionsLength: 0 },
+          ...apiData.sessions,
+          {day: 'End', sessionsLength: 0 },
+        ]
+        setAverageData({...apiData, sessions: sessionsWithExtraDays});
+      }catch(error) {
+        console.error("data fetch error", error)
+      }
+    }
+    fetchData()
+  }, [id]);
+
+  if (!averageData) {
+    return <div>Chargement des données...</div>;
+  }
 
   return (
     <div className="data_bloc_1">
@@ -101,7 +108,7 @@ const CustomLineChart = () => {
           Durée moyenne des<br></br>sessions
         </div>
         <LineChart
-          data={formattedData}
+          data={averageData.sessions}
           margin={{
             top: 0,
             right: 0,
@@ -112,8 +119,8 @@ const CustomLineChart = () => {
           <XAxis
             dataKey="day"
             tickFormatter={(value) => {
-              if (value === 0 || value === 8) return '';
-              return daysMap[value - 1];
+              if (value === 'Start' || value === 'End') return '';
+              return value;
             }}
             tickLine={false}
             axisLine={false}
@@ -126,7 +133,7 @@ const CustomLineChart = () => {
           <Line
             type="natural"
             strokeWidth={2}
-            dataKey="time"
+            dataKey="sessionLength"
             stroke="#FFFFFF"
             dot={false}
             activeDot={(props) => <CustomActiveDot {...props}/>}
@@ -155,7 +162,7 @@ CustomActiveDot.propTypes = {
   cx: PropTypes.number,
   cy: PropTypes.number,
   payload: PropTypes.shape({
-    day: PropTypes.number,
+    day: PropTypes.string,
   }),
 };
 

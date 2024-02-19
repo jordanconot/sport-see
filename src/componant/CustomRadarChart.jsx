@@ -6,17 +6,10 @@ import {
   PolarRadiusAxis,
   ResponsiveContainer,
 } from 'recharts';
-import data from '../mock/data.json';
 import PropTypes from 'prop-types';
-
-const kindFr = {
-  cardio: 'Cardio',
-  energy: 'Énergie',
-  endurance: 'Endurance',
-  strength: 'Force',
-  speed: 'Vitesse',
-  intensity: 'Intensité',
-};
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import ApiServices from '../services/ApiService';
 
 const CustomTick = ({ payload, x, y, textAnchor, stroke }) => {
   x += -3
@@ -38,21 +31,29 @@ const CustomTick = ({ payload, x, y, textAnchor, stroke }) => {
 };
 
 const CustomRadarChart = () => {
-  const userPerformanceData = data.USER_PERFORMANCE.find(
-    (user) => user.userId === 12
-  );
+  const [performanceData, setPerformanceData] = useState(null);
+  const { id } = useParams();
 
-  const formattedData = userPerformanceData.data.map((item) => {
-    return {
-      kind: kindFr[userPerformanceData.kind[item.kind.toString()]],
-      value: item.value,
-    };
-  });
+  useEffect(() => {
+    async function fetchData() {
+      try{
+        const apiData = await ApiServices.getPerformanceData(id);
+        setPerformanceData(apiData);
+      }catch(error) {
+        console.error("data fetch error", error)
+      }
+    }
+    fetchData()
+  }, [id]);
+  
+  if (!performanceData) {
+    return <div>Chargement des données...</div>;
+  }
 
   return (
     <div className="data_bloc_2">
       <ResponsiveContainer width="100%" height={263}>
-        <RadarChart outerRadius="80%" data={formattedData}>
+        <RadarChart outerRadius="80%" data={performanceData.performanceData}>
           <PolarGrid radialLines={false} />
           <PolarAngleAxis
             dataKey="kind"

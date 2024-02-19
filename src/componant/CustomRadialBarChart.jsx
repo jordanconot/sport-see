@@ -4,30 +4,41 @@ import {
   ResponsiveContainer,
   PolarAngleAxis,
 } from 'recharts';
-import data from '../mock/data.json';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import ApiServices from '../services/ApiService';
 
 const CustomRadialBarChart = () => {
-  const userScoreData = data.USER_MAIN_DATA.find((user) => user.id === 12);
+  const [scoreData, setScoreData] = useState(null);
+  const { id } = useParams();
 
-  const formattedData = [
-    {
-      name: 'Score',
-      score: userScoreData.todayScore * 100,
-      fill: '#FF0000',
-    },
-  ];
+  useEffect(() => {
+    async function fetchData() {
+      try{
+        const apiData = await ApiServices.getMainData(id);
+        setScoreData(apiData);
+      }catch(error) {
+        console.error("data fetch error", error)
+      }
+    }
+    fetchData()
+  }, [id]);
+  
+  if (!scoreData) {
+    return <div>Chargement des données...</div>;
+  }
 
   return (
     <div className="data_bloc_3">
       <div className='score'>Score</div>
       <div className='container_result'>
-        <span className='result'>{formattedData[0].score}%</span>
+        <span className='result'>{scoreData.todayScore[0].score}%</span>
         <span className='objectif'>de votre</span>
         <span className='objectif'>objectif</span>
       </div>
       <ResponsiveContainer width="100%" height={263}>
         <RadialBarChart
-          data={formattedData}
+          data={scoreData.todayScore}
           innerRadius="80%"
           outerRadius="100%"
           startAngle={90}
