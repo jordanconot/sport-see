@@ -1,0 +1,44 @@
+.choice_container {
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    animation: fadeIn 2s ease-in-out;
+
+    h2 {
+      color: white;
+    }
+
+    .choice_name {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+
+      a {
+        font-size: 36px;
+        padding: 8px;
+        background-color: red;
+        border-radius: 8px;
+        color: white;
+        animation: fadeIn 2s ease-in-out;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
