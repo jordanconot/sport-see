@@ -11,14 +11,43 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ApiServices from '../services/ApiService';
 
+const WindowSize = () => {
+  const [size, setSize] = useState([0, 0]);
+  useEffect(() => {
+    const uptdateSize = () => {
+      setSize([window.innerWidth, window.innerHeight]);
+    };
+    window.addEventListener('resize', uptdateSize);
+    uptdateSize();
+    return () => window.removeEventListener('resize', uptdateSize);
+  }, []);
+  return size
+}
+
 const CustomTick = ({ payload, x, y, textAnchor, stroke }) => {
-  x += -3
+  const [width] = WindowSize();
+  let fontSize;
+
+  if(width <= 1024) {
+    fontSize = '0.42rem';
+  }  else if (width <= 1200) {
+    fontSize = '0.5rem';
+  } else if (width <= 1300) {
+    fontSize = '0.8rem';
+  }  else if (width <= 1500) {
+    fontSize = '0.58rem';
+  } else if (width <= 1600) {
+    fontSize = '0.8rem';
+  }
+  x += -2
+  y += +2
+
   return (
     <g>
       <text
         stroke={stroke}
         y={y}
-        fontSize="0.43rem"
+        fontSize={fontSize}
         fontWeight="500"
         textAnchor={textAnchor}
       >
