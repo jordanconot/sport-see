@@ -54,7 +54,7 @@ const Summary = () => {
       <div className="summary_bloc lipides">
         <img src="../src/assets/svg/cheese_burger.svg"></img>
         <div className="summary_bloc_details">
-          <p className="summary_number">{nutrientsData.keyData.LipidCount}g</p>
+          <p className="summary_number">{nutrientsData.keyData.lipidCount}g</p>
           <p className="summary_title">Lipides</p>
         </div>
       </div>
