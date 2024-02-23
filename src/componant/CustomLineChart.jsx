@@ -57,11 +57,7 @@ const CustomCursor = ({ width, height, points }) => {
 };
 
 const CustomActiveDot = (props) => {
-  const { cx, cy, stroke, fill, r, payload } = props;
-
-  if (payload.day === 'L' || payload.day === 'D') {
-    return null;
-  }
+  const { cx, cy, stroke, fill, r} = props;
 
   return <circle cx={cx} cy={cy} r={r} stroke={stroke} fill={fill} />;
 };
@@ -75,11 +71,12 @@ const CustomLineChart = () => {
       try{
         const apiData = await ApiServices.getAverageSessionsData(id);
         const sessionsWithExtraDays = [
-          {day: 'Start', sessionsLength: 0 },
+          {day: 'Start', sessionLength: 0 },
           ...apiData.sessions,
-          {day: 'End', sessionsLength: 0 },
+          {day: 'End', sessionLength: 0 },
         ]
         setAverageData({...apiData, sessions: sessionsWithExtraDays});
+        
       }catch(error) {
         console.error("data fetch error", error)
       }
@@ -91,9 +88,10 @@ const CustomLineChart = () => {
     return <div>Chargement des données...</div>;
   }
 
+
   return (
     <div className="data_bloc_1">
-      <ResponsiveContainer width="99%" height={263}>
+      <ResponsiveContainer width="100%" height={263}>
         <div
           style={{
             color: '#fff',
@@ -111,8 +109,8 @@ const CustomLineChart = () => {
           data={averageData.sessions}
           margin={{
             top: 0,
-            right: 0,
-            left: 0,
+            right: -15,
+            left: -15,
             bottom: 10,
           }}
         >
@@ -127,6 +125,7 @@ const CustomLineChart = () => {
             tick={{ fill: '#FFFFFF', fontWeight: 500, fontSize: 12 }}
             tickMargin={10}
             opacity={0.7}
+            interval={0}
           />
           <YAxis hide={true} domain={['dataMin-20', 'dataMax+60']} />
           <Tooltip content={<CustomToolTip />} cursor={<CustomCursor />} />
@@ -161,9 +160,6 @@ CustomActiveDot.propTypes = {
   r: PropTypes.number,
   cx: PropTypes.number,
   cy: PropTypes.number,
-  payload: PropTypes.shape({
-    day: PropTypes.string,
-  }),
 };
 
 export default CustomLineChart;

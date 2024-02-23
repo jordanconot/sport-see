@@ -6,7 +6,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  // Rectangle,
+  Rectangle,
 } from 'recharts';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react'
@@ -42,20 +42,20 @@ const CustomToolTip = ({ active, payload }) => {
   return null;
 };
 
-// const CustomCursor = ({ x, y, width, height }) => {
-//   if (width) width = width / 2;
-//   return (
-//     <Rectangle
-//       fill="#C4C4C480"
-//       strokeWidth={15}
-//       x={x}
-//       y={y}
-//       width={width}
-//       height={height}
-//       transform="translate(25, 0)"
-//     />
-//   );
-// };
+const CustomCursor = ({ x, y, width, height }) => {
+  if (width) width = width / 2;
+  return (
+    <Rectangle
+      fill="#C4C4C480"
+      strokeWidth={15}
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      transform="translate(25, 0)"
+    />
+  );
+};
 
 const CustomBarChart = () => {
   const [activityData, setActivityData] = useState('');
@@ -116,13 +116,12 @@ const CustomBarChart = () => {
                 />
                 <XAxis
                   dataKey="day"
-                  tickFormatter={activityData.sessions}
+                  // tickFormatter={activityData.sessions}
                   tickLine={false}
                   axisLine={false}
                   tick={{ fill: '#9B9EAC', fontSize: '14px' }}
                   tickMargin={15}
                   domain={['dataMin', 'dataMax']}
-                  interval={0}
                   padding={{ left: -45, right: -45 }}
                   
                 />
@@ -148,9 +147,10 @@ const CustomBarChart = () => {
                 />
                 <Tooltip
                   content={<CustomToolTip />}
-                  // cursor={<CustomCursor width={120} />}
+                  cursor={<CustomCursor width={120} />}
                   wrapperStyle={{ top: -40 }}
                 />
+                
                 <Bar
                   yAxisId="right"
                   dataKey="kilogram"
@@ -174,12 +174,12 @@ const CustomBarChart = () => {
   );
 };
 
-// CustomCursor.propTypes = {
-//   x: PropTypes.number,
-//   y: PropTypes.number,
-//   width: PropTypes.number,
-//   height: PropTypes.number,
-// };
+CustomCursor.propTypes = {
+  x: PropTypes.number,
+  y: PropTypes.number,
+  width: PropTypes.number,
+  height: PropTypes.number,
+};
 
 CustomToolTip.propTypes = {
   active: PropTypes.bool,
