@@ -88,7 +88,6 @@ const CustomLineChart = () => {
     return <div>Chargement des données...</div>;
   }
 
-
   return (
     <div className="data_bloc_1">
       <ResponsiveContainer width="100%" height={263}>

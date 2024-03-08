@@ -52,7 +52,7 @@ const CustomCursor = ({ x, y, width, height }) => {
       y={y}
       width={width}
       height={height}
-      transform="translate(25, 0)"
+      transform={`translate(${width / 2}, 0)`}
     />
   );
 };
@@ -147,7 +147,7 @@ const CustomBarChart = () => {
                 />
                 <Tooltip
                   content={<CustomToolTip />}
-                  cursor={<CustomCursor width={120} />}
+                  cursor={<CustomCursor/>}
                   wrapperStyle={{ top: -40 }}
                 />
                 
